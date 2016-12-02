@@ -2,13 +2,24 @@
   margin: 0 auto;
   text-align: center; }
 
+button {
+  outline: none; }
+
 body {
-  padding-top: 50px; }
+  padding-top: 30px; }
+
+#messageArea {
+  margin-bottom: 10px; }
+  #messageArea button {
+    height: 20px;
+    width: 50px;
+    background-color: #1ee490;
+    border: 1px solid black;
+    margin-top: 5px; }
 
 #board {
   height: 400px;
   width: 397px;
-  background-color: black;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap; }
@@ -18,7 +29,20 @@ body {
   width: 130px;
   background-color: white;
   margin: 0;
-  border: 1px solid blue;
+  border: 1px solid #18ab6d;
   font-size: 30px; }
+
+#resetButton {
+  height: 30px;
+  width: 100px;
+  margin-top: 10px;
+  background-color: #1ee490;
+  border: 1px solid black;
+  font-size: 16px;
+  outline: none; }
+
+button:hover {
+  background-color: #09613c;
+  color: white; }
 
 /*# sourceMappingURL=styles.css.map */

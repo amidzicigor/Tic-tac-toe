@@ -23,11 +23,9 @@ var checkCurrentMove = function () {
   }
 }
 
+// Remove option to choose X or O and replace it with userChoice
 var removeChoiceOption = function () {
-	$('#messageArea').text('');
-}
-var returnChoiceOption = function () {
-	location.reload();
+	$('#messageArea').text(`You are ${userChoice}`);
 }
 
 // Remove playable boxes from arrayOfOptions
@@ -43,16 +41,16 @@ var updateArray = function () {
 
 // -------------------------- AI functionality ------------------------------ //
 var computerMove = function () {
-	var randomTimeout = Math.floor(Math.random() * 3000) + 1000;
-	var randomNum = Math.floor(Math.random() * arrayOfOptions.length);
-	setTimeout(function () {
+	if (moveCounter > 0) {
+		var randomTimeout = Math.floor(Math.random() * 3000) + 1000;
+		var randomNum = Math.floor(Math.random() * arrayOfOptions.length);
 		checkCurrentMove();
 		moveCounter++;
 		$(`#${arrayOfOptions[randomNum]}`).html(currentMove);
 		updateArray();
 		checkWin();
 		console.log(randomNum);
-	}, randomTimeout);
+	}
 }
 // ------------------------ End AI functionality ---------------------------- //
 
@@ -126,13 +124,15 @@ function checkWin() {
 		alert ("Winner is O!");
 	} else if (topRight === 'O' && midMid === 'O' && botLeft === 'O'){
 		alert ("Winner is O!");
+	} else if (moveCounter === 9) {
+		alert("Its a tie!");
 	}
 }
 // -------------------------- End Check Winner ------------------------------ //
 
 // Reset the board by reloading page
 var resetBoard = function () {
-  returnChoiceOption();
+  location.reload();
 }
 
 
@@ -143,14 +143,12 @@ $(document).ready(function(){
       userChoice = 'X';
       computerChoice = 'O';
       currentMove = userChoice;
-      alert("You are " + userChoice);
       removeChoiceOption();
   });
   $('#buttonO').click(function(){
       userChoice = 'O';
       computerChoice = 'X';
       currentMove = userChoice;
-      alert("You are " + userChoice);
       removeChoiceOption();
   });
 
@@ -161,6 +159,7 @@ $(document).ready(function(){
   	$(this).html(currentMove);
 		updateArray();
 		computerMove();
+		checkTie();
     checkWin();
   })
   // Reset board
