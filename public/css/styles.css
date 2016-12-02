@@ -1,0 +1,24 @@
+* {
+  margin: 0 auto;
+  text-align: center; }
+
+body {
+  padding-top: 50px; }
+
+#board {
+  height: 400px;
+  width: 397px;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+
+.box {
+  height: 130px;
+  width: 130px;
+  background-color: white;
+  margin: 0;
+  border: 1px solid blue;
+  font-size: 30px; }
+
+/*# sourceMappingURL=styles.css.map */
