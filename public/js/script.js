@@ -11,16 +11,28 @@ var computerChoice;
 var currentMove;
 var moveCounter = 0;
 var arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var playerScore = 0;
+var computerScore = 0;
+var gamesPlayed = 0;
 
 // Change the current move after every turn
 var checkCurrentMove = function () {
 	if (moveCounter > 0) {
   	if (currentMove === "X") {
       currentMove = "O";
-    } else if (currentMove === 'O') {
-      currentMove = 'X';
+    } else if (currentMove === "O") {
+      currentMove = "X";
     }
   }
+}
+
+// Add score to user
+var scoreForUser = function () {
+	$('#playerScore').html(playerScore);
+}
+// Add score to computer
+var scoreForComputer = function () {
+	$('#computerScore').html(computerScore);
 }
 
 // Remove option to choose X or O and replace it with userChoice
@@ -49,13 +61,14 @@ var computerMove = function () {
 		$(`#${arrayOfOptions[randomNum]}`).html(currentMove);
 		updateArray();
 		checkWin();
-		console.log(randomNum);
+		console.log('after computer plays:' + arrayOfOptions);
 	}
+	console.log('move counter: ' + moveCounter);
 }
 // ------------------------ End AI functionality ---------------------------- //
 
 // ---------------------------- Check Winner -------------------------------- //
-function checkWin() {
+var checkWin = function () {
 
 	var topLeft = $('#1').text();
 	var topMid = $('#2').text();
@@ -68,71 +81,140 @@ function checkWin() {
 	var botRight = $('#9').text();
 
 	// Check row wins
-	if (topLeft === 'X' && topMid === 'X' && topRight === 'X') {
-		alert ("Winner is X!");
+	if (topLeft === userChoice && topMid === userChoice && topRight === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
-	} else if (midLeft === 'X' && midMid === 'X' && midRight === 'X') {
-		alert ("Winner is X!");
+	} else if (midLeft === userChoice && midMid === userChoice && midRight === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
-	} else if (botLeft === 'X' && botMid === 'X' && botRight === 'X') {
-		alert ("Winner is X!");
+	} else if (botLeft === userChoice && botMid === userChoice && botRight === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
 	}
 	// Check col wins
-	else if (topLeft === 'X' && midLeft === 'X' && botLeft === 'X') {
-		alert ("Winner is X!");
+	else if (topLeft === userChoice && midLeft === userChoice && botLeft === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
-	} else if (topMid === 'X' && midMid === 'X' && botMid === 'X') {
-		alert ("Winner is X!");
+	} else if (topMid === userChoice && midMid === userChoice && botMid === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
-	} else if (topRight === 'X' && botMid === 'X' && botRight === 'X') {
-		alert ("Winner is X!");
+	} else if (topRight === userChoice && botMid === userChoice && botRight === userChoice) {
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
 	}
 	// Check diag wins
-	else if (topLeft === 'X' && midMid === 'X' && botRight === 'X'){
-		alert ("Winner is X!");
+	else if (topLeft === userChoice && midMid === userChoice && botRight === userChoice){
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
-	} else if (topRight === 'X' && midMid === 'X' && botLeft === 'X'){
-		alert ("Winner is X!");
+	} else if (topRight === userChoice && midMid === userChoice && botLeft === userChoice){
+		gamesPlayed++;
+		displayWinner(userChoice);
+		playerScore++;
+		scoreForUser();
 		resetBoard();
 	}
 	// Check row wins O
-	else if (topLeft === 'O' && topMid === 'O' && topRight === 'O') {
-		alert ("Winner is O!");
+	else if (topLeft === computerChoice && topMid === computerChoice && topRight === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
-	} else if (midLeft === 'O' && midMid === 'O' && midRight === 'O') {
-		alert ("Winner is O!");
+	} else if (midLeft === computerChoice && midMid === computerChoice && midRight === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
-	} else if (botLeft === 'O' && botMid === 'O' && botRight === 'O') {
-		alert ("Winner is O!");
+	} else if (botLeft === computerChoice && botMid === computerChoice && botRight === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
 	}
 	// Check col wins
-	else if (topLeft === 'O' && midLeft === 'O' && botLeft === 'O') {
-		alert ("Winner is O!");
+	else if (topLeft === computerChoice && midLeft === computerChoice && botLeft === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
-	} else if (topMid === 'O' && midMid === 'O' && botMid === 'O') {
-		alert ("Winner is O!");
+	} else if (topMid === computerChoice && midMid === computerChoice && botMid === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
-	} else if (topRight === 'O' && midRight === 'O' && botRight === 'O') {
-		alert ("Winner is O!");
+	} else if (topRight === computerChoice && midRight === computerChoice && botRight === computerChoice) {
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
 		resetBoard();
 	}
 	// Check diag wins
-	else if (topLeft === 'O' && midMid === 'O' && botRight === 'O'){
-		alert ("Winner is O!");
-	} else if (topRight === 'O' && midMid === 'O' && botLeft === 'O'){
-		alert ("Winner is O!");
+	else if (topLeft === computerChoice && midMid === computerChoice && botRight === computerChoice){
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
+		resetBoard();
+	} else if (topRight === computerChoice && midMid === computerChoice && botLeft === computerChoice){
+		gamesPlayed++;
+		displayWinner(computerChoice);
+		computerScore++;
+		scoreForComputer();
+		resetBoard();
 	} else if (moveCounter === 9) {
-		alert("Its a tie!");
+		gamesPlayed++;
+		$('#displayWinner').html('It\'s a tie!');
+		setTimeout(function () {
+			$('#displayWinner').html('');
+		}, 1500)
+		resetBoard();
 	}
 }
 // -------------------------- End Check Winner ------------------------------ //
 
+// Display winner
+var displayWinner = function (winner) {
+	$('#displayWinner').html(`Winner: ${winner}`);
+	setTimeout(function () {
+		$('#displayWinner').html('');
+	}, 1500)
+
+}
+
 // Reset the board by reloading page
 var resetBoard = function () {
-  location.reload();
+	moveChosen = false;
+	moveCounter = 0;
+	arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	for (var i = 1; i <= 9; i++) {
+		$(`#${i}`).html('');
+	}
 }
 
 
@@ -154,16 +236,23 @@ $(document).ready(function(){
 
   // When box is click, change inner HTML
   $('.box').click(function(){
-  	checkCurrentMove();
-    moveCounter++;
-  	$(this).html(currentMove);
-		updateArray();
-		computerMove();
-		checkTie();
-    checkWin();
+		if (userChoice) {
+			var findThis = Number($(this).attr('id'));
+			if (arrayOfOptions.indexOf(findThis) >= 0) {
+		  	checkCurrentMove();
+	  		$(this).html(currentMove);
+				moveCounter++;
+				updateArray();
+		    checkWin();
+				computerMove();
+				updateArray();
+			}
+			console.log('move counter: ' + moveCounter);
+		}
   })
+
   // Reset board
   $('#resetButton').click(function(){
-  	resetBoard();
+		location.reload();
   });
 })
