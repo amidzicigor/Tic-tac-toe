@@ -13,8 +13,10 @@
   "author": "Binny and Igor",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "hbs": "^4.0.1",
+    "mongoose": "^4.7.1",
     "pusher": "^1.5.1"
   }
 }

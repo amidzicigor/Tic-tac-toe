@@ -39,6 +39,9 @@ body {
   border: 1px solid rgb(24, 171, 109);
   font-size: 30px;
 }
+.box:active {
+  background-color: rgb(15, 140, 87);
+}
 
 #resetButton {
   height: 30px;
@@ -52,10 +55,11 @@ body {
 
 #displayWinner {
   position: absolute;
-  font-size: 50px;
+  font-size: 60px;
   color: rgb(30, 228, 144);
   line-height: 400px;
   width: 400px;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 button:hover {
@@ -72,4 +76,61 @@ table, td {
 
 td {
   width: 50px;
+}
+
+#bug {
+  margin-top: 10px;
+  height: 30px;
+  width: 100px;
+  background-color: rgb(30, 228, 144);
+  border: 1px solid black;
+  outline: none;
+}
+#bug:hover {
+  color: white;
+}
+
+
+/* -------------------------------------------------------------------------- */
+
+#bugText {
+  text-align: left;
+  padding-left: 5px;
+  padding-top: 5px;
+  height: 100px;
+  width: 500px;
+  border: 1px solid black;
+  outline: none;
+  font-size: 18px
+}
+#bugText:focus {
+  border: 1px solid rgb(30, 228, 144)
+}
+
+#bugButton {
+  height: 30px;
+  width: 100px;
+  background-color: rgb(30, 228, 144);
+  border: 1px solid black;
+  outline: none;
+  font-size: 18px;
+  margin-top: 10px;
+}
+#bugButton:hover {
+  color: white;
+}
+
+/* -------------------------------------------------------------------------- */
+
+#success input {
+  height: 30px;
+  width: 100px;
+  background-color: rgb(30, 228, 144);
+  border: 1px solid black;
+  outline: none;
+  font-size: 18px;
+  margin-top: 10px;
+}
+#success input:hover {
+  color: white;
 }

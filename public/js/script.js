@@ -131,7 +131,7 @@ function gameOver () {
 	setTimeout(function () {
 		$('#displayWinner').html('');
     resetBoard();
-	}, 1500)
+	}, 2000)
 }
 
 // ------------------------------ Check win --------------------------------- //
