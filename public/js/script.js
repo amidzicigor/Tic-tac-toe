@@ -1,258 +1,193 @@
-// Need to impliment:
-  // AI
 
 
-// Bugs
-	// Can click X or O buttons after game has started
+/*
+  Bugs
+    1) FIXED --- Computer plays turn after user wins.
+    2) FIXED --- 'cause of bug #1, user gets 2 points when winning instead of 1.
+*/
 
-var moveChosen = false;
+
+
+// Variables
 var userChoice;
 var computerChoice;
+var currentMove = userChoice;
+var arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var idOfBox = $(this).attr('id');
 var currentMove;
 var moveCounter = 0;
-var arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-var playerScore = 0;
+var difficulty = 1;
+var winCombos = ['123', '456', '789', '147', '258', '369', '159', '357'];
+var userWinArray = [];
+var computerWinArray = [];
+var winner;
+var userScore = 0;
 var computerScore = 0;
-var gamesPlayed = 0;
 
-// Change the current move after every turn
-var checkCurrentMove = function () {
-	if (moveCounter > 0) {
-  	if (currentMove === "X") {
-      currentMove = "O";
-    } else if (currentMove === "O") {
-      currentMove = "X";
+// ---------------------- Player choosing X or O ---------------------------- //
+function pickXorO () {
+  // Display choice at top of page
+  function displayChoice () {
+    $('#messageArea').html(`You are ${userChoice}`);
+  }
+  // Set choices for both player and computer and execute displayChoice()
+  $('#buttonX').click(function () {
+    userChoice = 'X';
+    computerChoice = 'O';
+    currentMove = userChoice;
+    displayChoice();
+  })
+  $('#buttonO').click(function () {
+    userChoice = 'O';
+    computerChoice = 'X';
+    currentMove = userChoice;
+    displayChoice();
+  })
+}
+
+// ----------------- Remove taken moves from arrayOfOptions ----------------- //
+function removeFromArray (num) {
+  arrayOfOptions.splice(num, 1);
+}
+
+// ---------------------- Allow user to move function ----------------------- //
+function userMove () {
+  $('.box').click(function () {
+    // When box is clicked, check if that ID is in the arrayOfOptions array
+    var idOfBox = Number($(this).attr('id'));
+    var checkArray = arrayOfOptions.indexOf(idOfBox);
+    var indexToDelete = checkArray;
+
+    // If it is in the array and its the user's turn,
+    // run the addHTMLUserChoice function
+    if (checkArray >= 0 && currentMove === userChoice   // line break
+      && !(typeof(userChoice) === 'undefined')) {
+
+      $(this).html(userChoice);
+      // Change current move to computer
+      currentMove = computerChoice;
+      moveCounter++;
+      userWinArray.push(idOfBox);
+      checkWin();
+      removeFromArray(indexToDelete);
+      // Run computer move
+      computerMove();
     }
+  })
+}
+
+// --------------------------- Computer move ------------- EASY ------------- //
+function computerEasyMove () {
+  if (moveCounter < 9 && !(winner)) {
+    // Delay computer input to simulate 'thinking..'
+    setTimeout (function () {
+      // random number generator
+      var randNum = Math.floor(Math.random() * arrayOfOptions.length);
+      // takes random number and asigns it to a position in the array
+      var idOfBox = arrayOfOptions[randNum];
+      $(`#${idOfBox}`).html(computerChoice);
+      currentMove = userChoice;
+      moveCounter++;
+      removeFromArray(randNum);
+      computerWinArray.push(idOfBox);
+      checkWin();
+    }, 500)
   }
 }
 
-// Add score to user
-var scoreForUser = function () {
-	$('#playerScore').html(playerScore);
-}
-// Add score to computer
-var scoreForComputer = function () {
-	$('#computerScore').html(computerScore);
+// --------------------------- Computer move ------------ Medium ------------ //
+function computerMediumMove () {
+  // Next update..
 }
 
-// Remove option to choose X or O and replace it with userChoice
-var removeChoiceOption = function () {
-	$('#messageArea').text(`You are ${userChoice}`);
+// --------------------------- Computer move ------------- Hard ------------- //
+function computerMediumMove () {
+  // Will do in the future, hopefully.
 }
 
-// Remove playable boxes from arrayOfOptions
-var updateArray = function () {
-	for (var i = 0; i < arrayOfOptions.length; i++) {
-		if ($(`#${arrayOfOptions[i]}`).text()) {
-			var numToSplice = arrayOfOptions.indexOf(arrayOfOptions[i]);
-			arrayOfOptions.splice(numToSplice, 1);
-		}
-	}
-	console.log(arrayOfOptions);
+// -------------------- Allow comcputer to move function -------------------- //
+function computerMove () {
+  if (difficulty === 1) {
+    computerEasyMove();
+  } else if (difficulty === 2) {
+    //computerMediumMove();
+  } else if (difficulty === 3) {
+    //computerHardMove();
+  }
 }
 
-// -------------------------- AI functionality ------------------------------ //
-var computerMove = function () {
-	if (moveCounter > 0) {
-		var randomTimeout = Math.floor(Math.random() * 3000) + 1000;
-		var randomNum = Math.floor(Math.random() * arrayOfOptions.length);
-		checkCurrentMove();
-		moveCounter++;
-		$(`#${arrayOfOptions[randomNum]}`).html(currentMove);
-		updateArray();
-		checkWin();
-		console.log('after computer plays:' + arrayOfOptions);
-	}
-	console.log('move counter: ' + moveCounter);
-}
-// ------------------------ End AI functionality ---------------------------- //
+// ------------------------------ Game over --------------------------------- //
+function gameOver () {
+  if (winner === userChoice) {
+    userScore++;
+    $('#displayWinner').html('You win!');
+  } else if (winner === computerChoice){
+    computerScore++;
+    $('#displayWinner').html('You lose :(');
+  } else if (!(winner)) {
+    $('#displayWinner').html('It\'s a tie!');
+  }
 
-// ---------------------------- Check Winner -------------------------------- //
-var checkWin = function () {
-
-	var topLeft = $('#1').text();
-	var topMid = $('#2').text();
-	var topRight = $('#3').text();
-	var midLeft = $('#4').text();
-	var midMid = $('#5').text();
-	var midRight = $('#6').text();
-	var botLeft = $('#7').text();
-	var botMid = $('#8').text();
-	var botRight = $('#9').text();
-
-	// Check row wins
-	if (topLeft === userChoice && topMid === userChoice && topRight === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	} else if (midLeft === userChoice && midMid === userChoice && midRight === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	} else if (botLeft === userChoice && botMid === userChoice && botRight === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	}
-	// Check col wins
-	else if (topLeft === userChoice && midLeft === userChoice && botLeft === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	} else if (topMid === userChoice && midMid === userChoice && botMid === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	} else if (topRight === userChoice && botMid === userChoice && botRight === userChoice) {
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	}
-	// Check diag wins
-	else if (topLeft === userChoice && midMid === userChoice && botRight === userChoice){
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	} else if (topRight === userChoice && midMid === userChoice && botLeft === userChoice){
-		gamesPlayed++;
-		displayWinner(userChoice);
-		playerScore++;
-		scoreForUser();
-		resetBoard();
-	}
-	// Check row wins O
-	else if (topLeft === computerChoice && topMid === computerChoice && topRight === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (midLeft === computerChoice && midMid === computerChoice && midRight === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (botLeft === computerChoice && botMid === computerChoice && botRight === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	}
-	// Check col wins
-	else if (topLeft === computerChoice && midLeft === computerChoice && botLeft === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (topMid === computerChoice && midMid === computerChoice && botMid === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (topRight === computerChoice && midRight === computerChoice && botRight === computerChoice) {
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	}
-	// Check diag wins
-	else if (topLeft === computerChoice && midMid === computerChoice && botRight === computerChoice){
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (topRight === computerChoice && midMid === computerChoice && botLeft === computerChoice){
-		gamesPlayed++;
-		displayWinner(computerChoice);
-		computerScore++;
-		scoreForComputer();
-		resetBoard();
-	} else if (moveCounter === 9) {
-		gamesPlayed++;
-		$('#displayWinner').html('It\'s a tie!');
-		setTimeout(function () {
-			$('#displayWinner').html('');
-		}, 1500)
-		resetBoard();
-	}
-}
-// -------------------------- End Check Winner ------------------------------ //
-
-// Display winner
-var displayWinner = function (winner) {
-	$('#displayWinner').html(`Winner: ${winner}`);
 	setTimeout(function () {
 		$('#displayWinner').html('');
+    resetBoard();
 	}, 1500)
-
 }
 
-// Reset the board by reloading page
-var resetBoard = function () {
-	moveChosen = false;
-	moveCounter = 0;
-	arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	for (var i = 1; i <= 9; i++) {
-		$(`#${i}`).html('');
-	}
+// ------------------------------ Check win --------------------------------- //
+function checkWin () {
+  for (var i = 0; i < 8; i++) {
+    winCombos[i] = winCombos[i].split('');
+    var userCounter = 0;
+    var computerCounter = 0;
+    for (var j = 0; j < 3; j++) {
+      var shorten = Number(winCombos[i][j]);
+      if (userWinArray.indexOf(Number(shorten)) >= 0) {
+        userCounter++;
+      } else if (computerWinArray.indexOf(Number(shorten)) >= 0){
+        computerCounter++;
+      }
+    }
+    if (userCounter === 3) {
+      winner = userChoice;
+      gameOver();
+    } else if (computerCounter === 3) {
+      winner = computerChoice;
+      gameOver();
+    } else if (moveCounter === 9) {
+      gameOver();
+    }
+    winCombos[i] = winCombos[i].join('');
+  }
 }
 
+// ----------------------------- Reset board -------------------------------- //
+function resetBoard () {
+  for (var i = 1; i < 10; i++) {
+    $(`#${i}`).html('');
+  }
+  arrayOfOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  moveCounter = 0;
+  winner = null;
+  currentMove = userChoice;
+  userWinArray = [];
+  computerWinArray = [];
+  $('#userScore').html(userScore);
+  $('#computerScore').html(computerScore);
+}
 
-$(document).ready(function(){
-
-	// Pick between X or O buttons
-	$('#buttonX').click(function(){
-      userChoice = 'X';
-      computerChoice = 'O';
-      currentMove = userChoice;
-      removeChoiceOption();
-  });
-  $('#buttonO').click(function(){
-      userChoice = 'O';
-      computerChoice = 'X';
-      currentMove = userChoice;
-      removeChoiceOption();
-  });
-
-  // When box is click, change inner HTML
-  $('.box').click(function(){
-		if (userChoice) {
-			var findThis = Number($(this).attr('id'));
-			if (arrayOfOptions.indexOf(findThis) >= 0) {
-		  	checkCurrentMove();
-	  		$(this).html(currentMove);
-				moveCounter++;
-				updateArray();
-		    checkWin();
-				computerMove();
-				updateArray();
-			}
-			console.log('move counter: ' + moveCounter);
-		}
+// ----------------------------- Reset button ------------------------------- //
+function resetButton () {
+  $('#resetButton').click(function () {
+    userScore = 0;
+    computerScore = 0;
+    resetBoard();
   })
+}
 
-  // Reset board
-  $('#resetButton').click(function(){
-		location.reload();
-  });
+// -------------------------------- JQUERY ---------------------------------- //
+$(document).ready(function () {
+  pickXorO();
+  userMove();
+  resetButton();
 })

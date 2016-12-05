@@ -3,8 +3,8 @@
   <head>
     <title>Tic Tac Toe</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script type="text/javascript" src='/js/script.js'></script>
+    <link rel="stylesheet" href="./css/styles.css">
+    <script type="text/javascript" src='./script.js'></script>
   </head>
   <body>
     <div id="messageArea">
@@ -14,12 +14,12 @@
     </div>
 
     <div id="board">
+      <div id="displayWinner"></div>
       <div id="1" class="box"></div>
       <div id="2" class="box"></div>
       <div id="3" class="box"></div>
       <div id="4" class="box"></div>
       <div id="5" class="box"></div>
-      <div id="displayWinner"></div>
       <div id="6" class="box"></div>
       <div id="7" class="box"></div>
       <div id="8" class="box"></div>
@@ -30,7 +30,7 @@
       <table>
         <tr>
           <th>You</th>
-          <td id='playerScore'>0</td>
+          <td id='userScore'>0</td>
         </tr>
         <tr>
           <th>Computer</th>
