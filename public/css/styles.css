@@ -9,13 +9,26 @@ body {
   padding-top: 30px; }
 
 #messageArea {
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  margin-top: 10px; }
   #messageArea button {
     height: 20px;
     width: 50px;
     background-color: #1ee490;
     border: 1px solid black;
     margin-top: 5px; }
+
+#githublink {
+  text-decoration: none;
+  font-size: 18px;
+  color: #0a955a; }
+
+#githublink img {
+  height: 20px;
+  width: 20px; }
+
+#githublink:hover {
+  color: #1ee490; }
 
 #board {
   height: 400px;
@@ -69,9 +82,10 @@ td {
 #bug {
   margin-top: 10px;
   height: 30px;
-  width: 100px;
-  background-color: #1ee490;
-  border: 1px solid black;
+  width: 130px;
+  background-color: black;
+  color: #1ee490;
+  border: 1px solid #1ee490;
   outline: none; }
 
 #bug:hover {
@@ -102,6 +116,10 @@ td {
 
 #bugButton:hover {
   color: white; }
+
+#tryAgain {
+  color: red;
+  margin-bottom: 10px; }
 
 /* -------------------------------------------------------------------------- */
 #success input {

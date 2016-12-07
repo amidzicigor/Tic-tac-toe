@@ -1,9 +1,13 @@
-
+/*
+  Next updates:
+    1) Impliment a way to choose difficulty
+    2) Computer: medium difficulty
 
 /*
   Bugs
     1) FIXED --- Computer plays turn after user wins.
     2) FIXED --- 'cause of bug #1, user gets 2 points when winning instead of 1.
+    3) If user wins on last remaining box, score increases by more than 1
 */
 
 
@@ -68,8 +72,8 @@ function userMove () {
       currentMove = computerChoice;
       moveCounter++;
       userWinArray.push(idOfBox);
-      checkWin();
       removeFromArray(indexToDelete);
+      checkWin();
       // Run computer move
       computerMove();
     }
@@ -117,9 +121,11 @@ function computerMove () {
 }
 
 // ------------------------------ Game over --------------------------------- //
+var gameOverCounter = 0;
 function gameOver () {
   if (winner === userChoice) {
     userScore++;
+    console.log(`userScore: ${userScore}`)
     $('#displayWinner').html('You win!');
   } else if (winner === computerChoice){
     computerScore++;
@@ -132,6 +138,9 @@ function gameOver () {
 		$('#displayWinner').html('');
     resetBoard();
 	}, 2000)
+  console.log('end of gameOver()');
+  gameOverCounter++;
+  console.log(`gameOverCounter: ${gameOverCounter}`)
 }
 
 // ------------------------------ Check win --------------------------------- //
@@ -174,6 +183,8 @@ function resetBoard () {
   computerWinArray = [];
   $('#userScore').html(userScore);
   $('#computerScore').html(computerScore);
+  gameOverCounter = 0;
+  checkWinCounter = 0;
 }
 
 // ----------------------------- Reset button ------------------------------- //

@@ -31,7 +31,7 @@ app.post('/bugs', (req, res) => {
   bug.save().then(() => {
     res.render('success.hbs');
   }).catch((e) => {
-    res.status(400).send('Error');
+    res.status(400).render('failure.hbs');
   })
 })
 
