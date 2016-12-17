@@ -105,7 +105,7 @@ function computerMediumMove () {
 }
 
 // --------------------------- Computer move ------------- Hard ------------- //
-function computerMediumMove () {
+function computerHardMove () {
   // Will do in the future, hopefully.
 }
 
